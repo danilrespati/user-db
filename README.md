@@ -15,3 +15,8 @@
 - React
 - Bulma (UI kit)
 - Axios
+
+## Next feature
+
+- Search
+- Filter
