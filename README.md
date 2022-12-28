@@ -1,4 +1,4 @@
-#How to run
+# How to run
 
 1. Run npm install on both server and app
 2. Create the database for the server
