@@ -1,0 +1,33 @@
+GET http://localhost:4000/users
+
+###
+GET http://localhost:4000/users/3370056987450003
+
+###
+POST http://localhost:4000/users
+Content-Type: application/json
+
+{
+  "nik": "3370056987450012",
+  "fullName": "Danil Respati",
+  "gender": "Male",
+  "bornDate": "1996-01-22",
+  "address": "Jl. Achmad Yani No 11 Jakarta Pusat",
+  "nationality": "Indonesia"
+}
+
+###
+PATCH http://localhost:4000/users/3370056987450012
+Content-Type: application/json
+
+{
+  "nik": "3370056987450012",
+  "fullName": "Danil Mondelez",
+  "gender": "Male",
+  "bornDate": "1996-01-22",
+  "address": "Jl. Achmad Yani No 14 Jakarta Pusat",
+  "nationality": "Indonesia"
+}
+
+###
+DELETE http://localhost:4000/users/3370056987450012
