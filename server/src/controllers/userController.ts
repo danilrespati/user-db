@@ -25,6 +25,13 @@ export const searchUsers = async (req: Request, res: Response) => {
   try {
     const query: any = req.params.query;
 
+    const searchAllField = await User.query(`SELECT * FROM public."user"
+    WHERE (CAST(nik as TEXT) LIKE '%${query}%')
+    OR ("fullName" ILIKE '%${query}%')
+    OR (gender ILIKE '%${query}%')
+    OR (address ILIKE '%${query}%')
+    OR (nationality ILIKE '%${query}%')`);
+
     const response = await User.find({
       where: [
         { fullName: Like(`%${query}%`) },
@@ -33,7 +40,7 @@ export const searchUsers = async (req: Request, res: Response) => {
         { nationality: Like(`%${query}%`) },
       ],
     });
-    res.status(200).json(response);
+    res.status(200).json(searchAllField);
   } catch (error) {
     console.log(error.message);
   }
