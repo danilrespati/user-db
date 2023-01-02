@@ -19,6 +19,7 @@ const UserList = () => {
     fullName: "",
     nik: 0,
   });
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     getUsers();
@@ -26,6 +27,17 @@ const UserList = () => {
 
   const getUsers = async () => {
     const response = await axios.get("http://localhost:4000/users");
+    setUsers(response.data);
+  };
+
+  const searchUsers = async () => {
+    if (!query) {
+      getUsers();
+      return;
+    }
+    const response = await axios.get(
+      `http://localhost:4000/users/search/${query}`
+    );
     setUsers(response.data);
   };
 
@@ -47,11 +59,25 @@ const UserList = () => {
     }
   };
   return (
-    <div className="columns mt-5 mx-5">
-      <div className="column">
-        <Link to={`add`} className="button is-success">
-          Add new
-        </Link>
+    <div className="rows mt-5 mx-5">
+      <div className="row mb-5">
+        <div className="columns">
+          <Link to={`add`} className="button is-success mr-5">
+            Add new
+          </Link>
+          <input
+            type="search"
+            className="input is-rounded mr-5"
+            placeholder="Search..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          <button className="button is-success" onClick={searchUsers}>
+            Search
+          </button>
+        </div>
+      </div>
+      <div className="row">
         <table className="table is-stripped is-fullwidth">
           <thead>
             <tr>

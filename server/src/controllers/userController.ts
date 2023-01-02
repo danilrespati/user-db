@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { Equal, ILike, Like } from "typeorm";
 import { User } from "../entity/User";
 
 export const getUsers = async (_req: Request, res: Response) => {
@@ -14,6 +15,24 @@ export const getUsersByNik = async (req: Request, res: Response) => {
   try {
     const nik: any = req.params.nik;
     const response = await User.findOneBy({ nik: nik });
+    res.status(200).json(response);
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const searchUsers = async (req: Request, res: Response) => {
+  try {
+    const query: any = req.params.query;
+
+    const response = await User.find({
+      where: [
+        { fullName: Like(`%${query}%`) },
+        { gender: Like(`%${query}%`) },
+        { address: Like(`%${query}%`) },
+        { nationality: Like(`%${query}%`) },
+      ],
+    });
     res.status(200).json(response);
   } catch (error) {
     console.log(error.message);
