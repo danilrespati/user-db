@@ -18,5 +18,6 @@
 
 ## Next feature
 
-- Search
+- ~~Search~~ (may upgrade later)
+- Pagination
 - Filter
