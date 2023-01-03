@@ -70,7 +70,10 @@ const UserList = () => {
             className="input is-rounded mr-5"
             placeholder="Search..."
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              if (!e.target.value) getUsers();
+            }}
           />
           <button className="button is-success" onClick={searchUsers}>
             Search
