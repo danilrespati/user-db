@@ -62,6 +62,7 @@ const EditUser = () => {
                 value={nik}
                 onChange={(e) => setNik(e.target.value)}
                 placeholder="NIK"
+                disabled
               />
             </div>
           </div>

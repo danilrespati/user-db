@@ -45,6 +45,7 @@ const AddUser = () => {
                 value={nik}
                 onChange={(e) => setNik(e.target.value)}
                 placeholder="NIK"
+                required
               />
             </div>
           </div>
@@ -57,6 +58,7 @@ const AddUser = () => {
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="Nama Lengkap"
+                required
               />
             </div>
           </div>
