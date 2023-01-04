@@ -18,6 +18,7 @@
 
 ## Next feature
 
-- ~~Search~~ (may upgrade later)
+- ~~Search~~ (name and nik)
 - Pagination
 - Filter
+- Validation (notify user)
