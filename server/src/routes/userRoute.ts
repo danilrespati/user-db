@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.get("/users", getUsers);
 router.get("/users/:nik", getUsersByNik);
-router.get("/users/search/:query", searchUsers);
+router.get("/search", searchUsers);
 router.post("/users", createUser);
 router.patch("/users/:nik", updateUser);
 router.delete("/users/:nik", deleteUser);

@@ -19,24 +19,16 @@ const UserList = () => {
     fullName: "",
     nik: 0,
   });
-  const [query, setQuery] = useState("");
+  const [searchNik, setSearchNik] = useState("");
+  const [searchName, setSearchName] = useState("");
 
   useEffect(() => {
-    getUsers();
-  }, []);
+    getUsers(searchNik, searchName);
+  }, [searchName, searchNik]);
 
-  const getUsers = async () => {
-    const response = await axios.get("http://localhost:4000/users");
-    setUsers(response.data);
-  };
-
-  const searchUsers = async () => {
-    if (!query) {
-      getUsers();
-      return;
-    }
+  const getUsers = async (searchNik: String, searchName: String) => {
     const response = await axios.get(
-      `http://localhost:4000/users/search/${query}`
+      `http://localhost:4000/search?nik=${searchNik}&name=${searchName}`
     );
     setUsers(response.data);
   };
@@ -52,35 +44,52 @@ const UserList = () => {
   const handleDeleteTrue = async () => {
     try {
       await axios.delete(`http://localhost:4000/users/${confirmDelete.nik}`);
-      getUsers();
+      getUsers(searchNik, searchName);
       setConfirmDelete({ show: false, fullName: "", nik: 0 });
     } catch (error) {
       console.log(error);
     }
   };
   return (
-    <div className="rows mt-5 mx-5">
-      <div className="row mb-5">
-        <div className="columns">
-          <Link to={`add`} className="button is-success mr-5">
-            Add new
-          </Link>
-          <input
-            type="search"
-            className="input is-rounded mr-5"
-            placeholder="Search..."
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              if (!e.target.value) getUsers();
-            }}
-          />
-          <button className="button is-success" onClick={searchUsers}>
+    <div className="mt-5 mx-5">
+      <div className="columns">
+        <div className="column is-two-fifths">
+          <div className="field">
+            <label className="label is-hidden">NIK</label>
+            <input
+              type="search"
+              className="input"
+              placeholder="NIK"
+              value={searchNik}
+              onChange={(e) => setSearchNik(e.target.value)}
+            />
+          </div>
+          <div className="field">
+            <label className="label is-hidden">Name</label>
+            <input
+              type="search"
+              className="input"
+              placeholder="Name"
+              value={searchName}
+              onChange={(e) => setSearchName(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="column is-narrow mt-auto">
+          <button
+            className="button is-info"
+            onClick={() => getUsers(searchNik, searchName)}
+          >
             Search
           </button>
         </div>
+        <div className="column is-narrow mt-auto">
+          <Link to={`add`} className="button is-success">
+            Add new
+          </Link>
+        </div>
       </div>
-      <div className="row">
+      <div className="">
         <table className="table is-stripped is-fullwidth">
           <thead>
             <tr>
