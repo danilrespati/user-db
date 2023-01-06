@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { countryCode } from "../utils/countryCode";
 
 const DetailUser = () => {
   const [nik, setNik] = useState("");
@@ -25,7 +26,9 @@ const DetailUser = () => {
     setGender(response.data.gender);
     setBornDate(response.data.bornDate);
     setAddress(response.data.address);
-    setNationality(response.data.nationality);
+    setNationality(
+      countryCode[response.data.nationality as keyof typeof countryCode]
+    );
   };
 
   return (

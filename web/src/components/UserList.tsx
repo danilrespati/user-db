@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { countryCode } from "../utils/countryCode";
 import DeleteModal from "./DeleteModal";
 
 interface user {
@@ -128,9 +129,15 @@ const UserList = () => {
                   <td>{user.fullName}</td>
                   <td>{age}</td>
                   <td>{dob}</td>
-                  <td>{user.gender}</td>
-                  <td>{user.address}</td>
-                  <td>{user.nationality}</td>
+                  <td>{user.gender || "N/A"}</td>
+                  <td>{user.address || "N/A"}</td>
+                  <td>
+                    {user.nationality
+                      ? countryCode[
+                          user.nationality as keyof typeof countryCode
+                        ]
+                      : "N/A"}
+                  </td>
                   <td>
                     <Link
                       to={`detail/${user.nik}`}
