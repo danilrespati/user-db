@@ -35,6 +35,9 @@ export const searchUsers = async (req: Request, res: Response) => {
 export const createUser = async (req: Request, res: Response) => {
   try {
     const newUser: User = req.body;
+    if (!newUser.bornDate) {
+      newUser.bornDate = null;
+    }
     await User.insert(newUser);
     res.status(201).json({ msg: "User created!" });
   } catch (error) {
