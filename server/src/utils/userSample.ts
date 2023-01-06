@@ -6,7 +6,7 @@ export const usersData = [
 
     gender: "Male",
 
-    bordDate: new Date("1 Jan 1987"),
+    bornDate: new Date("1 Jan 1987"),
 
     address: "Jl. Achmad Yani No 89 Jakarta Pusat",
 
@@ -19,7 +19,7 @@ export const usersData = [
 
     gender: "Male",
 
-    bordDate: new Date("2 May 1985"),
+    bornDate: new Date("2 May 1985"),
 
     address: "Jl. Achmad Yani No 78 Jakarta Pusat",
 
@@ -32,7 +32,7 @@ export const usersData = [
 
     gender: "Male",
 
-    bordDate: new Date("3 Jan 1984"),
+    bornDate: new Date("3 Jan 1984"),
 
     address: "Jl. Achmad Yani No 67 Jakarta Pusat",
 
@@ -45,7 +45,7 @@ export const usersData = [
 
     gender: "Female",
 
-    bordDate: new Date("4 Jul 1989"),
+    bornDate: new Date("4 Jul 1989"),
 
     address: "Jl. Achmad Yani No 56 Jakarta Pusat",
 
@@ -58,7 +58,7 @@ export const usersData = [
 
     gender: "Male",
 
-    bordDate: new Date("5 Jan 1992"),
+    bornDate: new Date("5 Jan 1992"),
 
     address: "Jl. Achmad Yani No 45 Jakarta Pusat",
 

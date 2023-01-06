@@ -1,5 +1,5 @@
 import { User } from "../entity/User";
-import { usersData } from "./userSample";
+import { usersData } from "./MOCK_DATA";
 
 export const initData = async () => {
   console.log("Checking database data...");
