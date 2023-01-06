@@ -8,15 +8,15 @@ export class User extends BaseEntity {
   @Column({ type: "text", nullable: false })
   fullName: string;
 
-  @Column({ type: "text" })
+  @Column({ type: "text", nullable: true })
   gender: string;
 
-  @Column({ type: "date" })
+  @Column({ type: "date", nullable: true })
   bornDate: Date;
 
-  @Column({ type: "text" })
+  @Column({ type: "text", nullable: true })
   address: string;
 
-  @Column({ type: "text" })
+  @Column({ type: "text", nullable: true })
   nationality: string;
 }
