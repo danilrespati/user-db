@@ -23,7 +23,8 @@ const UserList = () => {
   const [searchName, setSearchName] = useState("");
 
   useEffect(() => {
-    getUsers(searchNik, searchName);
+    const timeOut = setTimeout(() => getUsers(searchNik, searchName), 500);
+    return () => clearTimeout(timeOut);
   }, [searchName, searchNik]);
 
   const getUsers = async (searchNik: String, searchName: String) => {
