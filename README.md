@@ -19,9 +19,9 @@
 ## Next feature
 
 - ~~Search~~ (name and nik)
-- Pagination
-- Filter
-- Validation (notify user)
+- ~~Pagination~~
+- ~~Validation (notify user)~~ (basic html)
+- Order by
 
 ## Tips
 
