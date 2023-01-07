@@ -3,6 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { countryCode } from "../utils/countryCode";
 import DeleteModal from "./DeleteModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronUp,
+  faChevronDown,
+  faMinus,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface user {
   nik: number;
@@ -25,23 +31,27 @@ const UserList = () => {
   const [dataCount, setdataCount] = useState(0);
   const [page, setPage] = useState(1);
   const limit = 20;
+  const [orderBy, setOrderBy] = useState("nik");
+  const [orderAsc, setorderAsc] = useState(true);
 
   useEffect(() => {
     const timeOut = setTimeout(
-      () => getUsers(searchNik, searchName, page, limit),
+      () => getUsers(searchNik, searchName, page, limit, orderBy, orderAsc),
       200
     );
     return () => clearTimeout(timeOut);
-  }, [searchName, searchNik, page, limit]);
+  }, [searchName, searchNik, page, limit, orderBy, orderAsc]);
 
   const getUsers = async (
     searchNik: string,
     searchName: string,
     page: number,
-    limit: number
+    limit: number,
+    orderBy: string,
+    orderAsc: boolean
   ) => {
     const response = await axios.get(
-      `http://localhost:4000/search?nik=${searchNik}&name=${searchName}&page=${page}&limit=${limit}`
+      `http://localhost:4000/search?nik=${searchNik}&name=${searchName}&page=${page}&limit=${limit}&order=${orderBy}&asc=${orderAsc}`
     );
     setUsers(response.data[0]);
     setdataCount(response.data[1]);
@@ -58,12 +68,18 @@ const UserList = () => {
   const handleDeleteTrue = async () => {
     try {
       await axios.delete(`http://localhost:4000/users/${confirmDelete.nik}`);
-      getUsers(searchNik, searchName, page, limit);
+      getUsers(searchNik, searchName, page, limit, orderBy, orderAsc);
       setConfirmDelete({ show: false, fullName: "", nik: 0 });
     } catch (error) {
       console.log(error);
     }
   };
+
+  const handleSort = async (nextOrderBy: string) => {
+    orderBy === nextOrderBy ? setorderAsc(!orderAsc) : setorderAsc(true);
+    setOrderBy(nextOrderBy);
+  };
+
   return (
     <div className="mt-5 mx-5">
       <div className="columns">
@@ -99,7 +115,9 @@ const UserList = () => {
           {false && (
             <button
               className="button is-info"
-              onClick={() => getUsers(searchNik, searchName, page, limit)}
+              onClick={() =>
+                getUsers(searchNik, searchName, page, limit, orderBy, orderAsc)
+              }
             >
               Search
             </button>
@@ -115,13 +133,99 @@ const UserList = () => {
         <thead>
           <tr>
             {/* <th>No</th> */}
-            <th>NIK</th>
-            <th>Nama Lengkap</th>
+            <th>
+              NIK
+              <button
+                className="button is-small is-ghost"
+                onClick={() => handleSort("nik")}
+              >
+                {orderBy !== "nik" && <FontAwesomeIcon icon={faMinus} />}
+                {orderBy === "nik" &&
+                  (orderAsc ? (
+                    <FontAwesomeIcon icon={faChevronUp} />
+                  ) : (
+                    <FontAwesomeIcon icon={faChevronDown} />
+                  ))}
+              </button>
+            </th>
+            <th>
+              Nama Lengkap
+              <button
+                className="button is-small is-ghost"
+                onClick={() => handleSort("fullName")}
+              >
+                {orderBy !== "fullName" && <FontAwesomeIcon icon={faMinus} />}
+                {orderBy === "fullName" &&
+                  (orderAsc ? (
+                    <FontAwesomeIcon icon={faChevronUp} />
+                  ) : (
+                    <FontAwesomeIcon icon={faChevronDown} />
+                  ))}
+              </button>
+            </th>
             <th>Umur</th>
-            <th>Tanggal Lahir</th>
-            <th>Jenis Kelamin</th>
-            <th>Alamat</th>
-            <th>Negara</th>
+            <th>
+              Tanggal Lahir
+              <button
+                className="button is-small is-ghost"
+                onClick={() => handleSort("bornDate")}
+              >
+                {orderBy !== "bornDate" && <FontAwesomeIcon icon={faMinus} />}
+                {orderBy === "bornDate" &&
+                  (orderAsc ? (
+                    <FontAwesomeIcon icon={faChevronUp} />
+                  ) : (
+                    <FontAwesomeIcon icon={faChevronDown} />
+                  ))}
+              </button>
+            </th>
+            <th>
+              Jenis Kelamin
+              <button
+                className="button is-small is-ghost"
+                onClick={() => handleSort("gender")}
+              >
+                {orderBy !== "gender" && <FontAwesomeIcon icon={faMinus} />}
+                {orderBy === "gender" &&
+                  (orderAsc ? (
+                    <FontAwesomeIcon icon={faChevronUp} />
+                  ) : (
+                    <FontAwesomeIcon icon={faChevronDown} />
+                  ))}
+              </button>
+            </th>
+            <th>
+              Alamat
+              <button
+                className="button is-small is-ghost"
+                onClick={() => handleSort("address")}
+              >
+                {orderBy !== "address" && <FontAwesomeIcon icon={faMinus} />}
+                {orderBy === "address" &&
+                  (orderAsc ? (
+                    <FontAwesomeIcon icon={faChevronUp} />
+                  ) : (
+                    <FontAwesomeIcon icon={faChevronDown} />
+                  ))}
+              </button>
+            </th>
+            <th>
+              Negara
+              <button
+                className="button is-small is-ghost"
+                onClick={() => handleSort("nationality")}
+              >
+                {orderBy !== "nationality" && (
+                  <FontAwesomeIcon icon={faMinus} />
+                )}
+                {orderBy === "nationality" &&
+                  (orderAsc ? (
+                    <FontAwesomeIcon icon={faChevronUp} />
+                  ) : (
+                    <FontAwesomeIcon icon={faChevronDown} />
+                  ))}
+              </button>
+            </th>
             <th>Action</th>
           </tr>
         </thead>
