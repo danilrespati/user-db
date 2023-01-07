@@ -95,15 +95,17 @@ const UserList = () => {
             />
           </div>
         </div>
-        <div className="column is-narrow mt-auto">
-          <button
-            className="button is-info"
-            onClick={() => getUsers(searchNik, searchName, page, limit)}
-          >
-            Search
-          </button>
+        <div className="column mt-auto">
+          {false && (
+            <button
+              className="button is-info"
+              onClick={() => getUsers(searchNik, searchName, page, limit)}
+            >
+              Search
+            </button>
+          )}
         </div>
-        <div className="column is-narrow mt-auto">
+        <div className="column mt-auto has-text-right">
           <Link to={`add`} className="button is-success">
             Add new
           </Link>
@@ -179,7 +181,7 @@ const UserList = () => {
         </tbody>
       </table>
       <div className="columns is-centered">
-        <div className="column has-text-right">
+        <div className="column px-0 has-text-right">
           <button
             className="button"
             disabled={page < 2}
@@ -188,10 +190,28 @@ const UserList = () => {
             Previous
           </button>
         </div>
-        <div className="column is-narrow">
-          <button className="button is-ghost">{page}</button>
+        <div className="column px-0 has-text-right">
+          {page > 2 && <button className="button is-ghost">1</button>}
+          {page > 3 && <span className="pagination-ellipsis">&hellip;</span>}
+          {page > 1 && <button className="button is-ghost">{page - 1}</button>}
         </div>
-        <div className="column">
+        <div className="column px-0 is-narrow">
+          <button className="button is-disabled">{page}</button>
+        </div>
+        <div className="column px-0">
+          {page < Math.ceil(dataCount / limit) - 1 && (
+            <button className="button is-ghost">{page + 1}</button>
+          )}
+          {page < Math.ceil(dataCount / limit) - 2 && (
+            <span className="pagination-ellipsis">&hellip;</span>
+          )}
+          {page < Math.ceil(dataCount / limit) && (
+            <button className="button is-ghost">
+              {Math.ceil(dataCount / limit)}
+            </button>
+          )}
+        </div>
+        <div className="column px-0">
           <button
             className="button"
             disabled={page > Math.ceil(dataCount / limit) - 1}
@@ -201,13 +221,15 @@ const UserList = () => {
           </button>
         </div>
       </div>
-      {confirmDelete.show && (
-        <DeleteModal
-          handleDeleteFalse={handleDeleteFalse}
-          handleDeleteTrue={handleDeleteTrue}
-          fullName={confirmDelete.fullName}
-        />
-      )}
+      <div className="container">
+        {confirmDelete.show && (
+          <DeleteModal
+            handleDeleteFalse={handleDeleteFalse}
+            handleDeleteTrue={handleDeleteTrue}
+            fullName={confirmDelete.fullName}
+          />
+        )}
+      </div>
     </div>
   );
 };
