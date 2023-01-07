@@ -109,100 +109,96 @@ const UserList = () => {
           </Link>
         </div>
       </div>
-      <div className="">
-        <table className="table is-stripped is-fullwidth">
-          <thead>
-            <tr>
-              {/* <th>No</th> */}
-              <th>NIK</th>
-              <th>Nama Lengkap</th>
-              <th>Umur</th>
-              <th>Tanggal Lahir</th>
-              <th>Jenis Kelamin</th>
-              <th>Alamat</th>
-              <th>Negara</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user: user, index) => {
-              let dob, age;
-              if (user.bornDate) {
-                dob = Date.parse(user.bornDate);
-                const ageDiff = new Date(Date.now() - dob);
-                age = Math.abs(ageDiff.getUTCFullYear() - 1970);
-                dob = new Date(dob).toLocaleDateString("id", {
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                });
-              } else {
-                age = "N/A";
-                dob = "N/A";
-              }
-              return (
-                <tr key={user.nik}>
-                  {/* <td>{index + 1}</td> */}
-                  <td>{user.nik}</td>
-                  <td>{user.fullName}</td>
-                  <td>{age}</td>
-                  <td>{dob}</td>
-                  <td>{user.gender || "N/A"}</td>
-                  <td>{user.address || "N/A"}</td>
-                  <td>
-                    {user.nationality
-                      ? countryCode[
-                          user.nationality as keyof typeof countryCode
-                        ]
-                      : "N/A"}
-                  </td>
-                  <td>
-                    <Link
-                      to={`detail/${user.nik}`}
-                      className="button is-small is-info"
-                    >
-                      Detail
-                    </Link>
-                    <Link
-                      to={`edit/${user.nik}`}
-                      className="button is-small is-warning"
-                    >
-                      Edit
-                    </Link>
-                    <button
-                      className="button is-small is-danger"
-                      onClick={() => handleDelete(user.fullName, user.nik)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        <div className="columns is-centered">
-          <div className="column has-text-right">
-            <button
-              className="button"
-              disabled={page < 2}
-              onClick={() => setPage(page - 1)}
-            >
-              Previous
-            </button>
-          </div>
-          <div className="column is-narrow">
-            <button className="button is-ghost">{page}</button>
-          </div>
-          <div className="column">
-            <button
-              className="button"
-              disabled={page > Math.ceil(dataCount / limit) - 1}
-              onClick={() => setPage(page + 1)}
-            >
-              Next
-            </button>
-          </div>
+      <table className="table is-stripped is-fullwidth">
+        <thead>
+          <tr>
+            {/* <th>No</th> */}
+            <th>NIK</th>
+            <th>Nama Lengkap</th>
+            <th>Umur</th>
+            <th>Tanggal Lahir</th>
+            <th>Jenis Kelamin</th>
+            <th>Alamat</th>
+            <th>Negara</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user: user, index) => {
+            let dob, age;
+            if (user.bornDate) {
+              dob = Date.parse(user.bornDate);
+              const ageDiff = new Date(Date.now() - dob);
+              age = Math.abs(ageDiff.getUTCFullYear() - 1970);
+              dob = new Date(dob).toLocaleDateString("id", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              });
+            } else {
+              age = "N/A";
+              dob = "N/A";
+            }
+            return (
+              <tr key={user.nik}>
+                {/* <td>{index + 1}</td> */}
+                <td>{user.nik}</td>
+                <td>{user.fullName}</td>
+                <td>{age}</td>
+                <td>{dob}</td>
+                <td>{user.gender || "N/A"}</td>
+                <td>{user.address || "N/A"}</td>
+                <td>
+                  {user.nationality
+                    ? countryCode[user.nationality as keyof typeof countryCode]
+                    : "N/A"}
+                </td>
+                <td>
+                  <Link
+                    to={`detail/${user.nik}`}
+                    className="button is-small is-info"
+                  >
+                    Detail
+                  </Link>
+                  <Link
+                    to={`edit/${user.nik}`}
+                    className="button is-small is-warning"
+                  >
+                    Edit
+                  </Link>
+                  <button
+                    className="button is-small is-danger"
+                    onClick={() => handleDelete(user.fullName, user.nik)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <div className="columns is-centered">
+        <div className="column has-text-right">
+          <button
+            className="button"
+            disabled={page < 2}
+            onClick={() => setPage(page - 1)}
+          >
+            Previous
+          </button>
+        </div>
+        <div className="column is-narrow">
+          <button className="button is-ghost">{page}</button>
+        </div>
+        <div className="column">
+          <button
+            className="button"
+            disabled={page > Math.ceil(dataCount / limit) - 1}
+            onClick={() => setPage(page + 1)}
+          >
+            Next
+          </button>
         </div>
       </div>
       {confirmDelete.show && (
