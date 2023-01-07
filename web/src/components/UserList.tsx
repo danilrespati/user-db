@@ -181,23 +181,28 @@ const UserList = () => {
             })}
           </tbody>
         </table>
-        <div>
-          <button
-            className="button"
-            disabled={page < 2}
-            onClick={() => setPage(page - 1)}
-          >
-            Previous
-          </button>
-          <button className="button">{page}</button>
-
-          <button
-            className="button"
-            disabled={page > Math.ceil(dataCount / limit) - 1}
-            onClick={() => setPage(page + 1)}
-          >
-            Next
-          </button>
+        <div className="columns is-centered">
+          <div className="column has-text-right">
+            <button
+              className="button"
+              disabled={page < 2}
+              onClick={() => setPage(page - 1)}
+            >
+              Previous
+            </button>
+          </div>
+          <div className="column is-narrow">
+            <button className="button is-ghost">{page}</button>
+          </div>
+          <div className="column">
+            <button
+              className="button"
+              disabled={page > Math.ceil(dataCount / limit) - 1}
+              onClick={() => setPage(page + 1)}
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
       {confirmDelete.show && (
