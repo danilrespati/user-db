@@ -21,7 +21,7 @@
 - ~~Search~~ (name and nik)
 - ~~Pagination~~
 - ~~Validation (notify user)~~ (basic html)
-- Order by
+- ~~Order by~~
 
 ## Tips
 
