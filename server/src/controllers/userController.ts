@@ -22,11 +22,15 @@ export const getUsersByNik = async (req: Request, res: Response) => {
 
 export const searchUsers = async (req: Request, res: Response) => {
   try {
-    const { nik, name } = req.query;
-    const response = await User.query(`SELECT * FROM public."user"
+    const { nik, name, page, limit } = req.query;
+    const response: [] = await User.query(`SELECT * FROM public."user"
     WHERE (CAST(nik as TEXT) ILIKE '%${nik}%')
     AND ("fullName" ILIKE '%${name}%')`);
-    res.status(200).json(response);
+    const startIndex =
+      (parseInt(page as string) - 1) * parseInt(limit as string);
+    const endIndex = parseInt(page as string) * parseInt(limit as string);
+    const result = [response.slice(startIndex, endIndex), response.length];
+    res.status(200).json(result);
   } catch (error) {
     console.log(error.message);
   }

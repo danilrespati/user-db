@@ -33,4 +33,4 @@ Content-Type: application/json
 DELETE http://localhost:4000/users/3370056987450012
 
 ###
-GET http://localhost:4000/search?nik=5000&name=
+GET http://localhost:4000/search?nik=&name=&page=1&limit=20

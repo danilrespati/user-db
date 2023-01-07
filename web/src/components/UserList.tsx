@@ -22,17 +22,29 @@ const UserList = () => {
   });
   const [searchNik, setSearchNik] = useState("");
   const [searchName, setSearchName] = useState("");
+  const [dataCount, setdataCount] = useState(0);
+  const [page, setPage] = useState(1);
+  const limit = 20;
 
   useEffect(() => {
-    const timeOut = setTimeout(() => getUsers(searchNik, searchName), 500);
-    return () => clearTimeout(timeOut);
-  }, [searchName, searchNik]);
-
-  const getUsers = async (searchNik: String, searchName: String) => {
-    const response = await axios.get(
-      `http://localhost:4000/search?nik=${searchNik}&name=${searchName}`
+    const timeOut = setTimeout(
+      () => getUsers(searchNik, searchName, page, limit),
+      500
     );
-    setUsers(response.data);
+    return () => clearTimeout(timeOut);
+  }, [searchName, searchNik, page, limit]);
+
+  const getUsers = async (
+    searchNik: string,
+    searchName: string,
+    page: number,
+    limit: number
+  ) => {
+    const response = await axios.get(
+      `http://localhost:4000/search?nik=${searchNik}&name=${searchName}&page=${page}&limit=${limit}`
+    );
+    setUsers(response.data[0]);
+    setdataCount(response.data[1]);
   };
 
   const handleDelete = (fullName: string, nik: number) => {
@@ -46,7 +58,7 @@ const UserList = () => {
   const handleDeleteTrue = async () => {
     try {
       await axios.delete(`http://localhost:4000/users/${confirmDelete.nik}`);
-      getUsers(searchNik, searchName);
+      getUsers(searchNik, searchName, page, limit);
       setConfirmDelete({ show: false, fullName: "", nik: 0 });
     } catch (error) {
       console.log(error);
@@ -63,7 +75,10 @@ const UserList = () => {
               className="input"
               placeholder="NIK"
               value={searchNik}
-              onChange={(e) => setSearchNik(e.target.value)}
+              onChange={(e) => {
+                setSearchNik(e.target.value);
+                setPage(1);
+              }}
             />
           </div>
           <div className="field">
@@ -73,14 +88,17 @@ const UserList = () => {
               className="input"
               placeholder="Name"
               value={searchName}
-              onChange={(e) => setSearchName(e.target.value)}
+              onChange={(e) => {
+                setSearchName(e.target.value);
+                setPage(1);
+              }}
             />
           </div>
         </div>
         <div className="column is-narrow mt-auto">
           <button
             className="button is-info"
-            onClick={() => getUsers(searchNik, searchName)}
+            onClick={() => getUsers(searchNik, searchName, page, limit)}
           >
             Search
           </button>
@@ -95,7 +113,7 @@ const UserList = () => {
         <table className="table is-stripped is-fullwidth">
           <thead>
             <tr>
-              <th>No</th>
+              {/* <th>No</th> */}
               <th>NIK</th>
               <th>Nama Lengkap</th>
               <th>Umur</th>
@@ -124,7 +142,7 @@ const UserList = () => {
               }
               return (
                 <tr key={user.nik}>
-                  <td>{index + 1}</td>
+                  {/* <td>{index + 1}</td> */}
                   <td>{user.nik}</td>
                   <td>{user.fullName}</td>
                   <td>{age}</td>
@@ -163,6 +181,24 @@ const UserList = () => {
             })}
           </tbody>
         </table>
+        <div>
+          <button
+            className="button"
+            disabled={page < 2}
+            onClick={() => setPage(page - 1)}
+          >
+            Previous
+          </button>
+          <button className="button">{page}</button>
+
+          <button
+            className="button"
+            disabled={page > Math.ceil(dataCount / limit) - 1}
+            onClick={() => setPage(page + 1)}
+          >
+            Next
+          </button>
+        </div>
       </div>
       {confirmDelete.show && (
         <DeleteModal
