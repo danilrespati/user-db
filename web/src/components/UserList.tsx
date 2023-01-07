@@ -191,22 +191,41 @@ const UserList = () => {
           </button>
         </div>
         <div className="column px-0 has-text-right">
-          {page > 2 && <button className="button is-ghost">1</button>}
+          {page > 2 && (
+            <button className="button is-ghost" onClick={() => setPage(1)}>
+              1
+            </button>
+          )}
           {page > 3 && <span className="pagination-ellipsis">&hellip;</span>}
-          {page > 1 && <button className="button is-ghost">{page - 1}</button>}
+          {page > 1 && (
+            <button
+              className="button is-ghost"
+              onClick={() => setPage(page - 1)}
+            >
+              {page - 1}
+            </button>
+          )}
         </div>
         <div className="column px-0 is-narrow">
           <button className="button is-disabled">{page}</button>
         </div>
         <div className="column px-0">
           {page < Math.ceil(dataCount / limit) - 1 && (
-            <button className="button is-ghost">{page + 1}</button>
+            <button
+              className="button is-ghost"
+              onClick={() => setPage(page + 1)}
+            >
+              {page + 1}
+            </button>
           )}
           {page < Math.ceil(dataCount / limit) - 2 && (
             <span className="pagination-ellipsis">&hellip;</span>
           )}
           {page < Math.ceil(dataCount / limit) && (
-            <button className="button is-ghost">
+            <button
+              className="button is-ghost"
+              onClick={() => setPage(Math.ceil(dataCount / limit))}
+            >
               {Math.ceil(dataCount / limit)}
             </button>
           )}
