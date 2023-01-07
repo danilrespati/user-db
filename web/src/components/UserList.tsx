@@ -29,7 +29,7 @@ const UserList = () => {
   useEffect(() => {
     const timeOut = setTimeout(
       () => getUsers(searchNik, searchName, page, limit),
-      500
+      200
     );
     return () => clearTimeout(timeOut);
   }, [searchName, searchNik, page, limit]);
