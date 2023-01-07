@@ -1,4 +1,5 @@
-import { Request, response, Response } from "express";
+import { Request, Response } from "express";
+import { AppDataSource } from "../data-source";
 import { User } from "../entity/User";
 
 export const getUsers = async (_req: Request, res: Response) => {
@@ -22,10 +23,12 @@ export const getUsersByNik = async (req: Request, res: Response) => {
 
 export const searchUsers = async (req: Request, res: Response) => {
   try {
-    const { nik, name, page, limit } = req.query;
+    const { nik, name, page, limit, order, asc } = req.query;
     const response: [] = await User.query(`SELECT * FROM public."user"
     WHERE (CAST(nik as TEXT) ILIKE '%${nik}%')
-    AND ("fullName" ILIKE '%${name}%')`);
+    AND ("fullName" ILIKE '%${name}%')
+    ORDER BY "${order}" ${asc == "true" ? "ASC" : "DESC"}`);
+
     const startIndex =
       (parseInt(page as string) - 1) * parseInt(limit as string);
     const endIndex = parseInt(page as string) * parseInt(limit as string);
