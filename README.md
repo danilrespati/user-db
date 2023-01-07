@@ -16,7 +16,7 @@
 - Bulma (UI kit)
 - Axios
 
-## Next feature
+## TODOS
 
 - ~~Search~~ (name and nik)
 - ~~Pagination~~
