@@ -22,6 +22,7 @@
 - ~~Pagination~~
 - ~~Validation (notify user)~~ (basic html)
 - ~~Order by~~
+- add filter(gender, nationality)
 
 ## Tips
 
