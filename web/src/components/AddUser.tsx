@@ -98,6 +98,7 @@ const AddUser = () => {
                 className="input"
                 value={bornDate}
                 onChange={(e) => setBornDate(e.target.value)}
+                max={new Date().toISOString().slice(0, 10)}
               />
             </div>
           </div>
