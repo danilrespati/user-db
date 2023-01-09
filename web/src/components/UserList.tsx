@@ -33,14 +33,24 @@ const UserList = () => {
   const limit = 20;
   const [orderBy, setOrderBy] = useState("nik");
   const [orderAsc, setorderAsc] = useState(true);
+  const [filters, setFilters] = useState({ gender: "", nationality: "" });
 
   useEffect(() => {
     const timeOut = setTimeout(
-      () => getUsers(searchNik, searchName, page, limit, orderBy, orderAsc),
+      () =>
+        getUsers(
+          searchNik,
+          searchName,
+          page,
+          limit,
+          orderBy,
+          orderAsc,
+          filters
+        ),
       200
     );
     return () => clearTimeout(timeOut);
-  }, [searchName, searchNik, page, limit, orderBy, orderAsc]);
+  }, [searchName, searchNik, page, limit, orderBy, orderAsc, filters]);
 
   const getUsers = async (
     searchNik: string,
@@ -48,11 +58,21 @@ const UserList = () => {
     page: number,
     limit: number,
     orderBy: string,
-    orderAsc: boolean
+    orderAsc: boolean,
+    filters: { gender: string; nationality: string }
   ) => {
-    const response = await axios.get(
-      `http://localhost:4000/search?nik=${searchNik}&name=${searchName}&page=${page}&limit=${limit}&order=${orderBy}&asc=${orderAsc}`
-    );
+    const response = await axios.get(`http://localhost:4000/search`, {
+      params: {
+        nik: searchNik,
+        name: searchName,
+        order: orderBy,
+        asc: orderAsc,
+        page,
+        limit,
+        gender: filters.gender,
+        nationality: filters.nationality,
+      },
+    });
     setUsers(response.data[0]);
     setdataCount(response.data[1]);
   };
@@ -68,7 +88,7 @@ const UserList = () => {
   const handleDeleteTrue = async () => {
     try {
       await axios.delete(`http://localhost:4000/users/${confirmDelete.nik}`);
-      getUsers(searchNik, searchName, page, limit, orderBy, orderAsc);
+      window.location.reload();
       setConfirmDelete({ show: false, fullName: "", nik: 0 });
     } catch (error) {
       console.log(error);
@@ -111,17 +131,52 @@ const UserList = () => {
             />
           </div>
         </div>
-        <div className="column mt-auto">
-          {false && (
-            <button
-              className="button is-info"
-              onClick={() =>
-                getUsers(searchNik, searchName, page, limit, orderBy, orderAsc)
-              }
-            >
-              Search
-            </button>
-          )}
+        <div className="column columns my-auto">
+          <div className="column is-narrow">
+            <div className="field">
+              <label className="label">Gender</label>
+              <div className="control">
+                <select
+                  className="select"
+                  name="genderFilter"
+                  value={filters.gender}
+                  onChange={(e) =>
+                    setFilters({ ...filters, gender: e.target.value })
+                  }
+                >
+                  <option value="">Any</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div className="column">
+            <div className="field">
+              <label className="label">Nationality</label>
+              <div className="control">
+                <select
+                  className="select"
+                  name="nationalityFilter"
+                  value={filters.nationality}
+                  onChange={(e) =>
+                    setFilters({ ...filters, nationality: e.target.value })
+                  }
+                >
+                  <option value="">Any</option>
+                  {Object.keys(countryCode).map((code, index) => {
+                    const content =
+                      countryCode[code as keyof typeof countryCode];
+                    return (
+                      <option value={code} key={index}>
+                        {content}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="column mt-auto has-text-right">
           <Link to={`add`} className="button is-success">
