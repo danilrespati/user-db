@@ -140,9 +140,13 @@ const EditUser = () => {
                 onChange={(e) => setNationality(e.target.value)}
               >
                 <option value="">--Select One--</option>
-                {Object.keys(countryCode).map((key) => {
-                  const content = countryCode[key as keyof typeof countryCode];
-                  return <option value={key}>{content}</option>;
+                {Object.keys(countryCode).map((code, index) => {
+                  const content = countryCode[code as keyof typeof countryCode];
+                  return (
+                    <option value={code} key={index}>
+                      {content}
+                    </option>
+                  );
                 })}
               </select>
             </div>
