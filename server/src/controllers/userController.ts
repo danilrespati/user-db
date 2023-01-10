@@ -26,12 +26,26 @@ export const searchUsers = async (req: Request, res: Response) => {
     const { nik, name, page, limit, order, asc, gender, nationality } =
       req.query;
 
+    const arrayFilter = (colName: string, values: string[] | string) => {
+      let query: string = ``;
+      if (typeof values === "string")
+        return `AND (${colName} LIKE '%${values}%')`;
+      values.forEach((value: string, index: number) => {
+        query += `${colName} LIKE '%${value}%'`;
+        if (index != values.length - 1) query += ` OR `;
+      });
+      return `AND (${query})`;
+    };
+
     const response: [] = await User.query(
       `SELECT * FROM public."user"
     WHERE (CAST(nik as TEXT) ILIKE '%${nik}%')
     AND ("fullName" ILIKE '%${name}%')
-    AND (gender LIKE '%${gender}%')
-    AND (nationality ILIKE '%${nationality}%')
+    ${gender && arrayFilter("gender", gender as string[] | string)}
+    ${
+      nationality &&
+      arrayFilter("nationality", nationality as string[] | string)
+    }
     ORDER BY "${order}" ${asc == "true" ? "ASC" : "DESC"}`
     );
 
